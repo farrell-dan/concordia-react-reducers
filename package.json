@@ -6,10 +6,16 @@
     "main": "src/index.js",
     "proxy": "http://localhost:5678",
     "dependencies": {
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.14.17",
+        "@tippyjs/react": "^4.2.6",
         "express": "^4.17.1",
         "react": "17.0.2",
         "react-dom": "17.0.2",
-        "react-scripts": "4.0.3"
+        "react-icons-kit": "^2.0.0",
+        "react-scripts": "4.0.3",
+        "styled-components": "^6.1.1"
     },
     "devDependencies": {
         "nodemon": "^2.0.2"
@@ -30,5 +36,8 @@
         "not dead",
         "not ie <= 11",
         "not op_mini all"
-    ]
+    ],
+    "repository": "https://github.com/farrell-dan/react-reducers.git",
+    "author": "farrell-dan <140118556+farrell-dan@users.noreply.github.com>",
+    "license": "MIT"
 }
