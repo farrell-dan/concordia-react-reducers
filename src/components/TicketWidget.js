@@ -37,7 +37,7 @@ const TicketWidget = () => {
                     width={36}
                     height={36}
                     price={seat.price}
-                    status={seat.isBooked ? "unavailable" : "available"}
+                    isBooked={seat.isBooked}
                   />
                 </SeatWrapper>
               );

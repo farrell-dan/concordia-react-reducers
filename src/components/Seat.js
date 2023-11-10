@@ -4,22 +4,31 @@ import "tippy.js/dist/tippy.css";
 import seatAvailable from "../assets/seat-available.svg";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { useBookingContext } from "./BookingContext";
 
-const Seat = ({ rowIndex, seatIndex, width, height, price, status }) => {
+const Seat = ({ rowIndex, seatIndex, width, height, price, isBooked }) => {
   const availableSeat = (
     <img
       alt="seats layout"
       src={seatAvailable}
-      style={{ filter: status === "unavailable" ? "grayscale(100%)" : "none" }}
+      style={{ filter: isBooked ? "grayscale(100%)" : "none" }}
     />
   );
+
+  const { beginBookingProcess } = useBookingContext();
+
+  const handleSeatClick = () => {
+    if (!isBooked) {
+      beginBookingProcess(`${rowIndex}-${seatIndex}`, price);
+    }
+  };
 
   return (
     <Tippy content={`Row ${rowIndex}, Seat ${seatIndex} - $${price}`}>
       <SeatWrapper
-        isBooked={status === "unavailable"}
-        disabled={status === "unavailable"}
+        disabled={isBooked}
         className="seat-button"
+        onClick={handleSeatClick}
       >
         {availableSeat}
       </SeatWrapper>
@@ -33,7 +42,7 @@ Seat.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   price: PropTypes.number.isRequired,
-  status: PropTypes.oneOf(["available", "unavailable"]).isRequired,
+  isBooked: PropTypes.bool,
 };
 
 export default Seat;
