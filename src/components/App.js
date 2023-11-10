@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import GlobalStyles from "./GlobalStyles";
 import { SeatContext } from "./SeatContext";
+import TicketWidget from "./TicketWidget";
 
 const App = () => {
   const {
@@ -18,6 +19,7 @@ const App = () => {
     <>
       <GlobalStyles />
       This vanue has {numOfRows} rows!
+      <TicketWidget />
     </>
   );
 };
