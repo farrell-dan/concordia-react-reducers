@@ -18,10 +18,9 @@ const bookingReducer = (state, action) => {
         selectedSeatId: action.payload.selectedSeatId,
         price: action.payload.price,
       };
-    // Add other cases as needed
 
     default:
-      return state;
+      throw new Error(`Unrecognized action: ${action.type}`);
   }
 };
 
