@@ -8,6 +8,10 @@ import seatAvailable from "../assets/seat-available.svg"
 import { SeatContext } from './SeatContext';
 import { useContext } from 'react';
 
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+
+
 const availableSeat =  <img alt="seats layout" src={seatAvailable} />
 
 const TicketWidget = () => {
@@ -15,15 +19,9 @@ const TicketWidget = () => {
 const { state } = useContext(SeatContext);
 const { hasLoaded, seats, numOfRows, seatsPerRow} = state
 
-console.log(seats);
-console.log(numOfRows);
-console.log(seatsPerRow)
-
-
   if (!hasLoaded) {
     return <CircularProgress/>  
   }
-
 
   return (
     <Wrapper>
@@ -35,11 +33,16 @@ console.log(seatsPerRow)
             <RowLabel>Row {rowName}</RowLabel>
             {range(seatsPerRow).map(seatIndex => {
               const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
-
+              const seat = seats[seatId]
+              const isBooked = seat.isBooked;
+              const seatPrice = seat.price;
+            
               return (
-                <SeatWrapper key={seatId}>
+                < Tippy key={seatId} content={`Row ${rowName}, Seat ${seatIndex} - $${seatPrice}`}>
+                <SeatWrapper isBooked={isBooked}>
                  {availableSeat}
                 </SeatWrapper>
+                </ Tippy>
               );
             })}
           </Row>
@@ -71,6 +74,7 @@ const RowLabel = styled.div`
 
 const SeatWrapper = styled.div`
   padding: 5px;
+  filter: ${({ isBooked }) => (isBooked ? 'grayscale(100%)' : 'none')};
 `;
 
 export default TicketWidget;
