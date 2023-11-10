@@ -1,48 +1,45 @@
-import styled from 'styled-components';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import styled from "styled-components";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { getRowName, getSeatNum } from '../helpers';
-import { range } from '../utils';
+import { getRowName, getSeatNum } from "../helpers";
+import { range } from "../utils";
 
-import seatAvailable from "../assets/seat-available.svg"
-import { SeatContext } from './SeatContext';
-import { useContext } from 'react';
+import { SeatContext } from "./SeatContext";
+import { useContext } from "react";
 
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
-
-
-const availableSeat =  <img alt="seats layout" src={seatAvailable} />
+import Seat from "./Seat";
 
 const TicketWidget = () => {
-
-const { state } = useContext(SeatContext);
-const { hasLoaded, seats, numOfRows, seatsPerRow} = state
+  const { state } = useContext(SeatContext);
+  const { hasLoaded, seats, numOfRows, seatsPerRow } = state;
 
   if (!hasLoaded) {
-    return <CircularProgress/>  
+    return <CircularProgress />;
   }
 
   return (
     <Wrapper>
-      {range(numOfRows).map(rowIndex => {
+      {range(numOfRows).map((rowIndex) => {
         const rowName = getRowName(rowIndex);
 
         return (
           <Row key={rowIndex}>
             <RowLabel>Row {rowName}</RowLabel>
-            {range(seatsPerRow).map(seatIndex => {
+            {range(seatsPerRow).map((seatIndex) => {
               const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
-              const seat = seats[seatId]
-              const isBooked = seat.isBooked;
-              const seatPrice = seat.price;
-            
+              const seat = seats[seatId];
+
               return (
-                < Tippy key={seatId} content={`Row ${rowName}, Seat ${seatIndex} - $${seatPrice}`}>
-                <SeatWrapper isBooked={isBooked}>
-                 {availableSeat}
+                <SeatWrapper key={seatIndex}>
+                  <Seat
+                    rowIndex={rowIndex}
+                    seatIndex={seatIndex}
+                    width={36}
+                    height={36}
+                    price={seat.price}
+                    status={seat.isBooked ? "unavailable" : "available"}
+                  />
                 </SeatWrapper>
-                </ Tippy>
               );
             })}
           </Row>
@@ -74,7 +71,6 @@ const RowLabel = styled.div`
 
 const SeatWrapper = styled.div`
   padding: 5px;
-  filter: ${({ isBooked }) => (isBooked ? 'grayscale(100%)' : 'none')};
 `;
 
 export default TicketWidget;
